@@ -41,7 +41,8 @@ void Texture::loadTexture() {
     stbi_image_free(data);
 }
 
-void Texture::bind() const {
+void Texture::bind(int offset) const {
+    glActiveTexture(GL_TEXTURE0 + offset);
     glBindTexture(GL_TEXTURE_2D, textureID);
 }
 

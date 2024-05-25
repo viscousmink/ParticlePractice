@@ -9,7 +9,7 @@ class Texture {
 public:
     Texture(const std::string& filePath);
     ~Texture();
-    void bind() const;
+    void bind(int offset) const;
     void unbind() const;
     unsigned int getID() const;
 

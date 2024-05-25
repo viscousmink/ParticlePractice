@@ -24,13 +24,19 @@ int main() {
     Window window(800, 600, "ParticlePractice");
     Shader shader("../shaders/triangle_vertex.glsl", "../shaders/triangle_fragment.glsl");
     Mesh mesh(vertices, sizeof(vertices), indices, sizeof(indices));
-    Texture myTexture("../textures/wall.jpg");
+    Texture texture1("../textures/container.jpg");
+    Texture texture2("../textures/awesomeface.png");
+
+    shader.use();
+    shader.setInt("texture1", 0);
+    shader.setInt("texture2", 1);
 
     while (!window.shouldClose()) {
         window.processInput();
         window.clear();
         shader.use();
-        myTexture.bind();
+        texture1.bind(0);
+        texture2.bind(1);
         mesh.draw();
         window.swapBuffers();
         glfwPollEvents();
