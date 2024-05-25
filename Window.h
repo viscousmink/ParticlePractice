@@ -12,6 +12,7 @@ public:
     bool shouldClose() const;
     void processInput();
     void swapBuffers();
+    void clear();
     GLFWwindow* getWindow() const;
 
 private:

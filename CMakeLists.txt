@@ -7,12 +7,14 @@ project(
 
 add_subdirectory(include/glfw-3.4)
 include_directories(include/glad)
+include_directories(include/glm)
 
 set(SOURCE_FILES
     main.cpp
     Shader.cpp
     Window.cpp
     Mesh.cpp
+    Texture.cpp
     glad.c
 )
 
