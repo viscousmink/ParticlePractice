@@ -8,6 +8,15 @@ project(
 add_subdirectory(include/glfw-3.4)
 include_directories(include/glad)
 
-add_executable(ParticlePractice main.cpp glad.c)
+set(SOURCE_FILES
+    main.cpp
+    Shader.cpp
+    Window.cpp
+    Mesh.cpp
+    glad.c
+)
+
+add_executable(ParticlePractice ${SOURCE_FILES})
 
 target_link_libraries(ParticlePractice glfw)
+target_compile_features(ParticlePractice PUBLIC cxx_std_17)
