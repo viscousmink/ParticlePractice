@@ -16,6 +16,7 @@ set(SOURCE_FILES
     Mesh.cpp
     Texture.cpp
     Model.cpp
+    Camera.cpp
     glad.c
 )
 

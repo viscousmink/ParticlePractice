@@ -1,7 +1,7 @@
 #include "Window.h"
 #include <glad/glad.h>
 
-Window::Window(int width, int height, const char* title) {
+Window::Window(int width, int height, const char* title, Camera& camera) : camera(camera) {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
@@ -33,10 +33,11 @@ bool Window::shouldClose() const {
     return glfwWindowShouldClose(window);
 }
 
-void Window::processInput() {
+void Window::processInput(float deltaTime) {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, true);
     }
+    camera.processKeyboard(deltaTime, window);
 }
 
 void Window::swapBuffers() {
