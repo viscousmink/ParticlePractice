@@ -1,7 +1,7 @@
 #include "Model.h"
 
-Model::Model(Shader* shader, Mesh* mesh, Texture* texture1, Texture* texture2)
-    : shader(shader), mesh(mesh), texture1(texture1), texture2(texture2), position(0.0f), scale(1.0f), rotationAngle(0.0f), rotationAxis(0.0f, 1.0f, 0.0f), modelMatrix(1.0f) {
+Model::Model(Shader* shader, Mesh* mesh, Texture* textures)
+    : shader(shader), mesh(mesh), textures(textures), position(0.0f), scale(1.0f), rotationAngle(0.0f), rotationAxis(0.0f, 1.0f, 0.0f), modelMatrix(1.0f) {
 }
 
 Model::~Model() {
@@ -37,13 +37,19 @@ void Model::updateModelMatrix() {
 
 void Model::draw(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) {
     shader->use();
-    // need some kind of for loop for the textures... maybe an array of textures?
-    texture1->bind(0);
-    texture2->bind(1);
+    for(int i = 0; i < sizeof(textures) / sizeof(Texture); i++)
+    {
+        textures[i].bind(i);
+    }
     shader->setMat4("model", modelMatrix);
     shader->setMat4("view", viewMatrix);
     shader->setMat4("projection", projectionMatrix);
+    // Adding in lighting stuff, will need to move elsewhere when it makes more sense...
+    shader->setVec3("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
+    shader->setVec3("lightColor",  glm::vec3(1.0f, 1.0f, 1.0f));
     mesh->draw();
-    texture1->unbind();
-    texture2->unbind();
+    for(int i = 0; i < sizeof(textures) / sizeof(Texture); i++)
+    {
+        textures[i].unbind();
+    }
 }

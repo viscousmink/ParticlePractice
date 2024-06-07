@@ -27,16 +27,17 @@ void Mesh::setupMesh(const float* vertices, size_t verticesSize, const unsigned 
     //glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesSize, indices, GL_STATIC_DRAW);
 
     // Position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
     // Color Attribute
     //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3*sizeof(float)));
     //glEnableVertexAttribArray(1);
 
+    // Need a way to dymically say to enable this or not...
     // Texture Attribute
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3*sizeof(float)));
-    glEnableVertexAttribArray(1);
+    //glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3*sizeof(float)));
+    //glEnableVertexAttribArray(1);
 
     glBindVertexArray(0); // Unbind VAO to avoid unintended changes
 }

@@ -10,7 +10,7 @@
 
 class Model {
 public:
-    Model(Shader* shader, Mesh* mesh, Texture* texture1, Texture* texture2);
+    Model(Shader* shader, Mesh* mesh, Texture* textures);
     ~Model();
 
     void setPosition(const glm::vec3& position);
@@ -27,8 +27,7 @@ public:
 private:
     Shader* shader;
     Mesh* mesh;
-    Texture* texture1;
-    Texture* texture2;
+    Texture* textures;
     glm::mat4 modelMatrix;
     glm::vec3 position;
     glm::vec3 scale;
