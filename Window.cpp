@@ -1,7 +1,23 @@
 #include "Window.h"
 #include <glad/glad.h>
 
-Window::Window(int width, int height, const char* title, Camera& camera) : camera(camera) {
+Camera* camera;
+void mousePosWrapper(GLFWwindow* window, double x, double y )
+{
+    if ( camera )
+    {
+        camera->processMouse( x, y );
+    }
+}
+void mouseScrollWrapper(GLFWwindow* window, double x, double y )
+{
+    if ( camera )
+    {
+        camera->processScroll( x, y );
+    }
+}
+
+Window::Window(int width, int height, const char* title) {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
@@ -22,6 +38,16 @@ Window::Window(int width, int height, const char* title, Camera& camera) : camer
     }
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
+
+    glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f,  3.0f);
+    glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+    glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
+    camera = new Camera(cameraPos, cameraUp, -90.0f, 0.0f, 45.0f);
+
+    glfwSetCursorPosCallback(window, mousePosWrapper);
+    glfwSetScrollCallback(window, mouseScrollWrapper);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);  
+
     glEnable(GL_DEPTH_TEST);
 }
 
@@ -37,7 +63,7 @@ void Window::processInput(float deltaTime) {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, true);
     }
-    camera.processKeyboard(deltaTime, window);
+    camera->processKeyboard(deltaTime, window);
 }
 
 void Window::swapBuffers() {

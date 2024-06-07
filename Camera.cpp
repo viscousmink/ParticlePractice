@@ -1,8 +1,8 @@
 #include "Camera.h"
 
-Camera::Camera(const glm::vec3& position, const glm::vec3& up, float yaw, float pitch) :
+Camera::Camera(const glm::vec3& position, const glm::vec3& up, float yaw, float pitch, float fov) :
     position(position), worldUp(up), yaw(yaw), pitch(pitch),
-    front(glm::vec3(0.0f, 0.0f, -1.0f)), movementSpeed(2.5f), mouseSensitivity(0.1f) {
+    front(glm::vec3(0.0f, 0.0f, -1.0f)), movementSpeed(2.5f), mouseSensitivity(0.1f), fov(fov) {
     updateCameraVectors();
 }
 
@@ -22,7 +22,22 @@ void Camera::processKeyboard(float deltaTime, GLFWwindow* window) {
         position += right * velocity;
 }
 
-void Camera::processMouseMovement(float xoffset, float yoffset, bool constrainPitch) {
+void Camera::processMouse(float xposIn, float yposIn, GLboolean constrainPitch) {
+    float xpos = static_cast<float>(xposIn);
+    float ypos = static_cast<float>(yposIn);
+
+    if (firstMouse)
+    {
+        lastX = xpos;
+        lastY = ypos;
+        firstMouse = false;
+    }
+
+    float xoffset = xpos - lastX;
+    float yoffset = lastY - ypos;
+    lastX = xpos;
+    lastY = ypos;
+
     xoffset *= mouseSensitivity;
     yoffset *= mouseSensitivity;
 
@@ -37,6 +52,15 @@ void Camera::processMouseMovement(float xoffset, float yoffset, bool constrainPi
     }
 
     updateCameraVectors();
+}
+
+void Camera::processScroll(double xoffset, double yoffset)
+{
+    fov -= (float)yoffset;
+    if (fov < 1.0f)
+        fov = 1.0f;
+    if (fov > 45.0f)
+        fov = 45.0f;
 }
 
 glm::vec3 Camera::getPosition() const {

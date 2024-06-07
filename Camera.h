@@ -1,24 +1,28 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
+#define GLFW_INCLUDE_NONE
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <GLFW/glfw3.h>
 #include <glm/gtx/string_cast.hpp>
+#include <glad/glad.h>
 
 #include <iostream>
 
 class Camera {
 public:
-    Camera(const glm::vec3& position, const glm::vec3& up, float yaw, float pitch);
-
-    glm::mat4 getViewMatrix() const;
+    Camera(const glm::vec3& position, const glm::vec3& up, float yaw, float pitch, float fov);
+    
     void processKeyboard(float deltaTime, GLFWwindow* window);
-    void processMouseMovement(float xoffset, float yoffset, bool constrainPitch = true);
 
-    glm::vec3 getPosition() const;
-    void setPosition(const glm::vec3& position);
+    void processMouse(float xposIn, float yposIn, GLboolean constrainPitch = true);
+    void processScroll(double xoffset, double yoffset);
+
     glm::vec3 getFront() const;
+    glm::vec3 getPosition() const;
+    glm::mat4 getViewMatrix() const;
+    void setPosition(const glm::vec3& position);
 
     const float cameraSpeed = 0.05f; // adjust accordingly
 
@@ -34,6 +38,11 @@ private:
 
     float movementSpeed;
     float mouseSensitivity;
+
+    bool firstMouse = true;
+    float lastX;
+    float lastY;
+    float fov;
 
     void updateCameraVectors();
 };

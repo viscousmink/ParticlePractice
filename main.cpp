@@ -70,18 +70,12 @@ int main() {
         1, 2, 3  // second triangle
     };
 
-    glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f,  3.0f);
-    glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-    glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
-
-    Camera camera(cameraPos, cameraUp, -90.0f, 0.0f);
-    Window window(SCR_WIDTH, SCR_HEIGHT, "ParticlePractice", camera);
+    Window window(SCR_WIDTH, SCR_HEIGHT, "ParticlePractice");
     Shader shader("../shaders/triangle_vertex.glsl", "../shaders/triangle_fragment.glsl");
     Mesh mesh(vertices, sizeof(vertices), indices, sizeof(indices));
     Texture texture1("../textures/container.jpg");
     Texture texture2("../textures/awesomeface.png");
 
-    // Model modelObj(&shader, &mesh, &texture1, &texture2);
     std::vector<Model*> models;
 
     shader.use();
@@ -124,7 +118,7 @@ int main() {
         const float radius = 10.0f;
         float camX = sin(glfwGetTime()) * radius;
         float camZ = cos(glfwGetTime()) * radius;
-        glm::mat4 view = camera.getViewMatrix();
+        glm::mat4 view = window.getViewMatrix();
         int i = 0;
         for(std::vector<Model*>::iterator itx = models.begin(); itx < models.end(); itx++)
         {
